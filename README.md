@@ -321,7 +321,7 @@ We would like to thank the following resources and individuals for their support
 
 Made with ❤️ by:
 
-- [Desmond Lee](https://github.com/djesmond1015)
+- [Desmond Lee](https://github.com/desmz)
 - [Vincent Yeap](https://github.com/YBoonShen)
 - [Marcus Liew](https://github.com/MarcusLiewZY)
 - [Robin Chew](https://github.com/ChewWZ)

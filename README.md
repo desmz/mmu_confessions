@@ -193,6 +193,9 @@ Before starting the installation process, please ensure you have registered for 
 
    # Supabase
    SUPABASE_PASSWORD=#your_supabase_password_here
+
+   # App config
+   ENABLE_EMAIL=False
    ```
 
    Alternatively, you can generate a `.env` file with the command below in Linux:

@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+truth_values = ("true", "1", "t")
+
 DATABASE_URI = os.getenv("DATABASE_URL")
 if DATABASE_URI.startswith("postgres://"):
     DATABASE_URI = DATABASE_URI.replace("postgres://", "postgresql://", 1)
@@ -31,19 +33,18 @@ class Config(object):
     )
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")
     MAIL_PORT = int(os.getenv("MAIL_PORT", 587))
-    MAIL_USE_TLS = os.getenv("MAIL_USE_TLS", "true").lower() in ("true", "1", "t")
+    MAIL_USE_TLS = os.getenv("MAIL_USE_TLS", "true").lower() in truth_values
     # Note: Ensure this is explicitly False for port 587
-    MAIL_USE_SSL = os.getenv("MAIL_USE_SSL", "false").lower() in (
-        "true",
-        "1",
-        "t",
-    )
+    MAIL_USE_SSL = os.getenv("MAIL_USE_SSL", "false").lower() in truth_values
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
     # Cloudinary configuration
     CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
     CLOUDINARY_AVATAR_IMAGE_FOLDER = "mmu-confession/dev/avatar-images"
+
+    # App configuration
+    ENABLE_EMAIL = os.getenv("ENABLE_EMAIL", "true").lower() in truth_values
 
 
 class DevelopmentConfig(Config):
@@ -64,3 +65,9 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     DEBUG_TB_ENABLED = True
+
+
+for key, value in Config.__dict__.items():
+    print(f"{key}: {value}")
+    print(type(value))
+    print()

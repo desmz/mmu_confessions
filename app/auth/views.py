@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 
-from app import bcrypt, db
+from app import app, bcrypt, db
 from app.forms.authForms import (
     ForgotPasswordForm,
     LoginForm,
@@ -44,22 +44,31 @@ def sign_up():
             }
         )
 
-        db.session.add(user)
-        db.session.commit()
+        if app.config["ENABLE_EMAIL"]:
+            db.session.add(user)
+            db.session.commit()
 
-        token = generate_token(user.email)
-        confirm_url = url_for(
-            "user.confirm_email", token=token, _external=True
-        )  # external=True to get the full url
-        html = render_template("auth/confirmEmail.html", confirm_url=confirm_url)
-        subject = "Please confirm your email"
-        send_mail(user.email, subject, html)
+            token = generate_token(user.email)
+            confirm_url = url_for(
+                "user.confirm_email", token=token, _external=True
+            )  # external=True to get the full url
+            html = render_template("auth/confirmEmail.html", confirm_url=confirm_url)
+            subject = "Please confirm your email"
+            send_mail(user.email, subject, html)
 
-        login_user(user)
+            login_user(user)
 
-        flash("A confirmation email has been sent via email.", "success")
+            flash("A confirmation email has been sent via email.", "success")
+            return redirect(url_for("user.inactive"))
+        else:
+            user.is_confirmed = True
+            db.session.add(user)
+            db.session.commit()
 
-        return redirect(url_for("user.inactive"))
+            login_user(user)
+
+            flash("Account confirmed", "success")
+            return redirect(url_for("main.community_guidelines"))
 
     return render_template("auth/signUp.html", form=form)
 
@@ -185,13 +194,18 @@ def forgot_password():
         reset_url = url_for(
             "user.reset_password", token=token, _external=True
         )  # external=True to get the full url
-        html = render_template("auth/confirmResetPassword.html", reset_url=reset_url)
-        subject = "Reset your password"
-        send_mail(user.email, subject, html)
 
-        flash("A password reset link has been sent via email", "success")
+        if app.config["ENABLE_EMAIL"]:
+            html = render_template(
+                "auth/confirmResetPassword.html", reset_url=reset_url
+            )
+            subject = "Reset your password"
+            send_mail(user.email, subject, html)
 
-        return redirect(url_for("user.sign_in"))
+            flash("A password reset link has been sent via email", "success")
+            return redirect(url_for("user.sign_in"))
+        else:
+            return redirect(reset_url)
 
     return render_template("auth/forgotPassword.html", form=form)
 

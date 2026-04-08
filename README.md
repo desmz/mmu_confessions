@@ -100,14 +100,14 @@ Before starting the installation process, please ensure you have registered for 
 
 1. **[Supabase](https://supabase.io/)** - [PostgreSQL](https://www.postgresql.org/) cloud database provider to store all the data.
 2. **[Cloudinary](https://cloudinary.com/)** - A cloud-based image and video management service.
-3. **[smtp2go](https://www.smtp2go.com/)** - A cloud-based email service that provides email delivery services.
+<!-- 3. **[smtp2go](https://www.smtp2go.com/)** - A cloud-based email service that provides email delivery services. -->
 
 ### <ins>Installation instructions</ins>
 
 1. Create a new folder and clone the repository.
 
    ```bash
-   git clone https://github.com/MarcusLiewZY/mmu_confessions .
+   git clone https://github.com/desmz/mmu_confessions.git .
    ```
 
 <br>
@@ -117,7 +117,12 @@ Before starting the installation process, please ensure you have registered for 
    We strongly recommend running the app in a virtual environment. You can create a virtual environment by typing the following command in the terminal.
 
    ```bash
-   python -m venv .venv
+   python3 -m venv .venv
+   ```
+
+   If you are using Python 2.x. Use the command below:
+   ```bash
+   python3 -m venv .venv
    ```
 
    <br>
@@ -150,36 +155,57 @@ Before starting the installation process, please ensure you have registered for 
 
 <br>
 
-4. Create a `.env` file in the root directory and add the environment variables from the [`.env.sample`](.env.sample) file.
+4. Create a `.env` file in the root directory and add the environment variables from the [`.env.example`](.env.example) file.
 
    ```env
-   SECRET_KEY= #your_secret_key_here
+   # generate with "openssl rand -base64 30"
+   SECRET_KEY=
    DEBUG=True
-   DATABASE_URL= #postgresql://user:password@localhost/dbname
+   DATABASE_URL=postgresql://user:password@localhost/dbname
    FLASK_APP=app
    FLASK_DEBUG=1
-   FLASK_RUN_HOST="localhost"
+   FLASK_RUN_HOST=localhost
+   # development or production
    ENV=development
+   #list of time zone: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones 
    TZ=Asia/Kuala_Lumpur
 
    # Email verification
-   SECURITY_PASSWORD_SALT= #your_security_salt_here
-   EMAIL_USER= #get_this_from_smtp2go
-   EMAIL_PASSWORD= #get_this_from_smtp2go
+   # generate with "openssl rand -base64 30"
+   SECURITY_PASSWORD_SALT=
+   MAIL_DEFAULT_SENDER="MMU Confessions <noreply@mmu-confessions.com>"
+   MAIL_SERVER="smtp.gmail.com"
+   MAIL_PORT=587
+   MAIL_USE_TLS=True
+   MAIL_USE_SSL=False
+   MAIL_USERNAME=
+   # If the MAIL_SERVER is smtp.gmail.com, generate an App Password from google: https://myaccount.google.com/apppasswords
+   MAIL_PASSWORD=
+
+   # Microsoft OAuth (archieved)
+   # MICROSOFT_CLIENT_ID= #your_microsoft_client_id_here
+   # MICROSOFT_CLIENT_SECRET= #your_microsoft_client_secret_here
 
    # Cloudinary
-   CLOUDINARY_CLOUD_NAME=#get_this_from_cloudinary
-   CLOUDINARY_API_KEY= #get_this_from_cloudinary
-   CLOUDINARY_API_SECRET= #get_this_from_cloudinary
+   CLOUDINARY_CLOUD_NAME=#your_cloudinary_cloud_name_here
+   CLOUDINARY_API_KEY=#your_cloudinary_api_key_here
+   CLOUDINARY_API_SECRET=#your_cloudinary_api_secret_here
 
    # Supabase
-   SUPABASE_PASSWORD= #get_this_from_supabase
+   SUPABASE_PASSWORD=#your_supabase_password_here
    ```
+
+   Alternatively, you can generate a `.env` file with the command below in Linux:
+
+   ``` bash
+   cp .env.example .env
+   ```
+
 
    After that, run the following command to set the environment variables.
 
    ```bash
-    source .env
+   source .env
    ```
 
 <br>
@@ -306,7 +332,7 @@ Made with ❤️ by:
 
 If you have any questions, feel free to contact us at:
 
-- Gmail: lee.desmond2016@gmail.com
+- Gmail: desm.swe@gmail.com
 - Gmail: boonshen1159@gmail.com
 - Gmail: marcusliewzhiyong@gmail.com
 - Gmail: robinchew2203@gmail.com

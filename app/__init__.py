@@ -1,16 +1,17 @@
 import os
-import config
-from dotenv import load_dotenv
 
+import cloudinary
+from authlib.integrations.flask_client import OAuth
+from dotenv import load_dotenv
 from flask import Flask
-from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
+from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
-from authlib.integrations.flask_client import OAuth
-import cloudinary
+
+import config
 
 load_dotenv()
 
@@ -80,16 +81,15 @@ from app.utils.customFilter import preserve_line_breaks
 app.jinja_env.filters["line_breaks"] = preserve_line_breaks
 
 # Blueprints registration
-from app.main.views import main
-from app.auth.views import user
+from app.about.views import about_bp
 from app.admin.views import admin
-from app.post.views import post
+from app.api import api
+from app.auth.views import user
+from app.faq.views import faq
+from app.main.views import main
 from app.me.views import me_bp
 from app.notification.views import notification
-from app.faq.views import faq
-from app.about.views import about_bp
-
-from app.api import api
+from app.post.views import post
 
 app.register_blueprint(main)
 app.register_blueprint(user)

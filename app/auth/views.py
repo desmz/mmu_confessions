@@ -1,20 +1,21 @@
 from datetime import datetime
-from flask import url_for, redirect, flash, request, render_template
-from flask_login import login_user, logout_user, current_user
 
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_user, logout_user
 
-from . import user
 from app import bcrypt, db
-from app.models import User
 from app.forms.authForms import (
-    RegisterForm,
-    LoginForm,
     ForgotPasswordForm,
+    LoginForm,
+    RegisterForm,
     ResetPasswordForm,
 )
+from app.models import User
 from app.services.auth_service import confirm_token, generate_token, send_mail
-from app.utils.decorators import login_required, logout_required, development_only
+from app.utils.decorators import login_required, logout_required
 from app.utils.helper import validate_blacklist
+
+from . import user
 
 
 @user.route("/sign-up", methods=["GET", "POST"])
@@ -24,7 +25,6 @@ def sign_up():
     form = RegisterForm(request.form)
 
     if form.validate_on_submit():
-
         if validate_blacklist(form.email.data):
             flash("Your account has been blacklisted", "error")
             return redirect(url_for("main.landing"))
@@ -87,7 +87,6 @@ def sign_in():
         login_user(user)
 
         if not user.is_confirmed:
-
             token = generate_token(user.email)
 
             confirm_url = url_for(

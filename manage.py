@@ -1,6 +1,7 @@
 import os
-import click
 from datetime import datetime
+
+import click
 from flask.cli import FlaskGroup
 
 from app import app, db
@@ -74,7 +75,7 @@ def seed(simple, medium, complex):
     By default, seeds the database with simple seeding configuration.
     """
 
-    from seeds import seeds, SeedConfig
+    from seeds import SeedConfig, seeds
 
     try:
         seed_config = SeedConfig()

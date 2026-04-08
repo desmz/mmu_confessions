@@ -2,7 +2,7 @@
 
 > An anonymous confession platform for the Multimedia University (MMU) community.
 
-Link: https://mmu-confession.onrender.com/
+Link: https://mmu-confessions-5gch.onrender.com
 
 <br>
 
@@ -122,7 +122,7 @@ Before starting the installation process, please ensure you have registered for 
 
    If you are using Python 2.x. Use the command below:
    ```bash
-   python3 -m venv .venv
+   python -m venv .venv
    ```
 
    <br>
@@ -215,19 +215,19 @@ Before starting the installation process, please ensure you have registered for 
    You can seed the database with sample data by running the following command. By default, the seeding configuration level is simple.
 
    ```bash
-   python manage.py seeds --simple
+   python3 manage.py seeds --simple
    ```
 
    If you want to seed the database with more data, you can specify the configuration level as follows:
 
    ```bash
-   python manage.py seeds --medium
+   python3 manage.py seeds --medium
    ```
 
    or
 
    ```bash
-   python manage.py seeds --complex
+   python3 manage.py seeds --complex
    ```
 
    **Note:** The estimated time for complex seeding level is approximately 15-30 minutes. Make sure you have a stable internet connection.
@@ -239,7 +239,7 @@ Before starting the installation process, please ensure you have registered for 
    Once the installation is complete, you can run the app by typing the following command in the terminal.
 
    ```bash
-   python manage.py run
+   python3 manage.py run
    ```
 
    <br>
@@ -249,7 +249,7 @@ Before starting the installation process, please ensure you have registered for 
    To access the admin panel, you need to change the role of the user to admin.
 
    ```bash
-   python manage.py role --admin
+   python3 manage.py role --admin
    ```
 
 ## Usage
